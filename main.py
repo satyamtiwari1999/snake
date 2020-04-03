@@ -11,6 +11,16 @@ snake.fill((30, 130, 10))
 # defining our main screen
 screen = pygame.display.set_mode([500, 500])
 
+# keeping the scores
+scores = 0
+
+
+def print_score():
+    """ will print the scores """
+    font = pygame.font.SysFont("comicsansms", 30)
+    score = font.render(str(scores), True, (0, 0, 0))
+    screen.blit(score, (470, 0))
+
 
 def head(x, y):
     """controls the head of the snake and print the unit element of snake"""
@@ -75,6 +85,7 @@ status = True
 while status:
     screen.fill((235, 225, 52))
     position_pearl(a)
+    print_score()
 
     # event loop starts
     for event in pygame.event.get():
@@ -110,6 +121,7 @@ while status:
         length.pop(0)
     else:
         a = [0, 0]
+        scores += 1
     # PRINTING THE SNAKE
     for i in length:
         head(i[0], i[1])
