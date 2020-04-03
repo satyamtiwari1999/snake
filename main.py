@@ -1,12 +1,14 @@
 """ Main console for the game """
 import pygame
 import random
+import time
 pygame.init()
+
+name = input("Enter Your Name: ").upper()
 
 # difining our snake unit
 snake = pygame.Surface((10, 10))
 snake.fill((30, 130, 10))
-
 
 # defining our main screen
 screen = pygame.display.set_mode([500, 500])
@@ -18,8 +20,10 @@ scores = 0
 def print_score():
     """ will print the scores """
     font = pygame.font.SysFont("comicsansms", 30)
+    n = font.render(name, True, (0, 0, 0))
+    screen.blit(n, (5, 0))
     score = font.render(str(scores), True, (0, 0, 0))
-    screen.blit(score, (470, 0))
+    screen.blit(score, (460, 0))
 
 
 def head(x, y):
@@ -29,16 +33,38 @@ def head(x, y):
 
 # designing the pearl
 pearl = pygame.Surface((10, 10))
-pearl.fill((0, 0, 0))
+pearl.fill((51, 68, 245))
 a = [0, 0]
 
 
 def position_pearl(a):
     '''prints the pearl at the random coordinates'''
     if a[0] == 0 and a[1] == 0:
-        a[0] = random.choice([x for x in range(0, 500, 10)])
-        a[1] = random.choice([x for x in range(0, 500, 10)])
+        a[0] = random.choice([x for x in range(10, 480, 10)])
+        a[1] = random.choice([x for x in range(10, 480, 10)])
     screen.blit(pearl, (a[0], a[1]))
+
+
+# obstacles
+obs = []
+
+
+def print_obstacle(obs):
+    """ prints the obstacles """
+    obst = pygame.Surface((10, 10))
+    obst.fill((207, 10, 10))
+    for j in obs:
+        screen.blit(obst, (j[0], j[1]))
+
+
+def make_obstacle(obs):
+    """ makes obstacles """
+    t = random.randint(0, 5)
+    for i in range(t):
+        x = random.choice([x for x in range(10, 480, 10)])
+        y = random.choice([x for x in range(30, 480, 10)])
+        if [x, y] != a:
+            obs.append((x, y))
 
 
 # position of head of the snake and how much to move
@@ -83,8 +109,9 @@ status = True
 
 """ The main loop of the game starts here """
 while status:
-    screen.fill((235, 225, 52))
+    screen.fill((235, 225, 255))  # background color
     position_pearl(a)
+    print_obstacle(obs)
     print_score()
 
     # event loop starts
@@ -119,14 +146,29 @@ while status:
     length.append((x, y))
     if not collision((x, y), a, current):
         length.pop(0)
+        for i in obs:
+            if i == (x, y):
+                status = False
     else:
+        make_obstacle(obs)
         a = [0, 0]
         scores += 1
     # PRINTING THE SNAKE
     for i in length:
         head(i[0], i[1])
+    if (x < 10 and current == pygame.K_LEFT) or (x > 480 and current == pygame.K_RIGHT):
+        status = False
+    elif (y < 10 and current == pygame.K_UP) or (y > 480 and current == pygame.K_DOWN):
+        status = False
 
     # a main command which if not written nothing is seen on the screen
     pygame.display.update()
     pygame.time.Clock().tick(10)
+    if not status:
+        screen.fill((235, 225, 52))  # background color
+        font = pygame.font.SysFont("comicsansms", 60)
+        n = font.render(name + ' : ' + str(scores), True, (0, 0, 0))
+        screen.blit(n, (70, 130))
+        pygame.display.update()
+        time.sleep(2)
 pygame.quit()
