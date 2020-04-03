@@ -4,7 +4,7 @@ import random
 pygame.init()
 
 # difining our snake unit
-snake = pygame.Surface((10, 10))
+snake = pygame.Surface((5, 5))
 snake.fill((30, 130, 10))
 
 
@@ -26,8 +26,8 @@ a = [0, 0]
 def position_pearl(a):
     '''prints the pearl at the random coordinates'''
     if a[0] == 0 and a[1] == 0:
-        a[0] = random.randint(35, 750)
-        a[1] = random.randint(35, 750)
+        a[0] = random.choice([x for x in range(5, 780, 5)])
+        a[1] = random.choice([x for x in range(5, 780, 5)])
     screen.blit(pearl, (a[0], a[1]))
 
 
@@ -79,11 +79,13 @@ while status:
     x, y = x + change_x, y + change_y
     # maintaining the length and position of the snake
     length.append((x, y))
+
     length.pop(0)
+    # PRINTING THE SNAKE
     for i in length:
         head(i[0], i[1])
 
     # a main command which if not written nothing is seen on the screen
     pygame.display.update()
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(35)
 pygame.quit()
