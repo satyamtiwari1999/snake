@@ -105,7 +105,11 @@ length = [(0, 0), (10, 0)]
 pygame.display.set_caption("Catch The Pearls")
 
 
-# making the start screen of the game
+def highscore():
+
+    pass  # making the start screen of the game
+
+
 def start():
     s = pygame.image.load('images/mainscreen.png')
     screen.blit(s, (0, 0))
@@ -114,8 +118,33 @@ def start():
 
 
 # current status of the game
-status = True
 start()
+
+
+def menu():
+    """ main menu of the game """
+    while True:
+        m = pygame.image.load("images/menu.png")
+        screen.blit(m, (0, 0))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                position = event.pos
+                print(position)
+                if position[0] in [x for x in range(20, 488)] and position[1] in [y for y in range(114, 191)]:
+                    return True
+                elif position[0] in [x for x in range(20, 488)] and position[1] in [y for y in range(282, 360)]:
+                    screen.fill((235, 225, 255))
+                    font = pygame.font.SysFont("comicsansms", 50)
+                    n = font.render(highscore(), True, (0, 0, 0))
+                    screen.blit(n, (90, 180))
+                    pygame.display.update()
+                    time.sleep(1)
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+
+
+status = menu()
 """ The main loop of the game starts here """
 while status:
 
