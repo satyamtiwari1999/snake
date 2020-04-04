@@ -106,10 +106,40 @@ pygame.display.set_caption("Catch The Pearls")
 
 
 def highscore():
+    """ will print the high score """
+    high_name = 0
+    high_score = 0
+    file = open('scores.txt')
+    for line in file.readlines():
+        line = str(line).strip()
+        print(line)
+        if line[0: 2] == 'NN':
+            high_score = line[3:]
+        if line[0: 2] == 'SS':
+            high_name = line[3:]
+    return f'{high_name} : {high_score}'
 
-    pass  # making the start screen of the game
+
+def highscore_change():
+    """ will change the high score """
+    change = False
+    file = open('scores.txt')
+    for line in file.readlines():
+        line = str(line).strip()
+        # print(line)
+        if line[0: 2] == 'NN':
+            print(line[3:])
+            if int(line[3:]) < int(scores):
+                change = True
+    # print(change)
+    file.close()
+    if change:
+        file = open('scores.txt', 'w')
+        file.write(f'SS {name}\nNN {scores}')
+        file.close()
 
 
+# making the start screen of the game
 def start():
     s = pygame.image.load('images/mainscreen.png')
     screen.blit(s, (0, 0))
@@ -210,4 +240,5 @@ while status:
         screen.blit(n, (70, 130))
         pygame.display.update()
         time.sleep(2)
+highscore_change()
 pygame.quit()
