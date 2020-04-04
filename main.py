@@ -104,11 +104,21 @@ length = [(0, 0), (10, 0)]
 # writing the name of the game
 pygame.display.set_caption("Catch The Pearls")
 
+
+# making the start screen of the game
+def start():
+    s = pygame.image.load('images/mainscreen.png')
+    screen.blit(s, (0, 0))
+    pygame.display.update()
+    time.sleep(2)
+
+
 # current status of the game
 status = True
-
+start()
 """ The main loop of the game starts here """
 while status:
+
     screen.fill((235, 225, 255))  # background color
     position_pearl(a)
     print_obstacle(obs)
