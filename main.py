@@ -234,7 +234,7 @@ while status:
     pygame.display.update()
     pygame.time.Clock().tick(10)
     if not status:
-        screen.fill((235, 225, 52))  # background color
+        screen.fill((235, 225, 255))  # background color
         font = pygame.font.SysFont("comicsansms", 60)
         n = font.render(name + ' : ' + str(scores), True, (0, 0, 0))
         screen.blit(n, (70, 130))
