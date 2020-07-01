@@ -1,4 +1,4 @@
-# snake
+# Snake Reborn
 The classic snake game with some added obstacles using python and pygame 
 
 
